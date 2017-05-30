@@ -1,0 +1,9 @@
+div.avatar {
+  background: url("../../assets/avatar.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+span.name {
+  margin-left: 20px;
+}

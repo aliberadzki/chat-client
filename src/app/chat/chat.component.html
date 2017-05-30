@@ -1,0 +1,13 @@
+<h1>{{title}}</h1>
+<div *ngIf="!isLogged">
+  <input type="text" name="nick" [(ngModel)]="nick" (keyup.enter)="login()"/>
+  <button (click)="login()">Log in</button>
+</div>
+
+<div *ngIf="isLogged">
+  <input type="text" [(ngModel)]="msg" (keyup.enter)="sendMessage(msg)"/>
+  <button (click)="sendMessage(msg)">send</button>
+  <div *ngFor="let item of messages">
+    <chat-message [chatMsg]="item"></chat-message>
+  </div>
+</div>

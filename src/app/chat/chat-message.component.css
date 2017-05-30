@@ -1,0 +1,8 @@
+div.chat-message {
+  margin: 5px;
+  background-color: #CACACA;
+}
+
+p.timestamp {
+  font-size: 8pt;
+}
