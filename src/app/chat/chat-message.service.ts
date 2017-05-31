@@ -9,11 +9,20 @@ import {ChatMessage} from "./chat.model";
 @Injectable()
 export class ChatMessageService {
   constructor(private http:Http) {}
-  public getMessages() : Observable<ChatMessage[]>{
+  public getMessages(topicName : String) : Observable<ChatMessage[]>{
 
     return this.http
-      .get('http://localhost:8080/chat')
+      .get('http://localhost:8080/chat/' + topicName)
       .map((response: Response) =>{
+        return response.json();
+      })
+      .catch(this.handleError);
+  }
+
+  public sendMessage(topicName : String, msg: ChatMessage) : Observable<ChatMessage> {
+    return this.http
+      .post('http://localhost:8080/chat/' + topicName, msg)
+      .map((response: Response) => {
         return response.json();
       })
       .catch(this.handleError);

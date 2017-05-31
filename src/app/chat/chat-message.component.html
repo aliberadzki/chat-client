@@ -1,5 +1,5 @@
 <div class="chat-message">
-  <chat-avatar [author]="chatMsg.author"></chat-avatar>
   <p class="content">{{chatMsg.content}}</p>
-  <p class="timestamp">{{chatMsg.timestamp}}</p>
 </div>
+
+<p class="timestamp"><chat-avatar [author]="chatMsg.author"></chat-avatar> {{chatMsg.timestamp}}</p>

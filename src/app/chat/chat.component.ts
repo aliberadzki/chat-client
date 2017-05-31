@@ -11,7 +11,8 @@ import {ChatMessage} from "./chat.model";
   templateUrl: './chat.component.html'
 })
 export class ChatComponent {
-  title = 'Type in your nickname';
+  topics = ['greetings', 'work', 'fun', 'movies', 'travelling', 'trading'];
+  currentChannel : String = 'greetings';
   isLogged : boolean = false;
   nick: String;
   private subscription : any;
@@ -41,19 +42,22 @@ export class ChatComponent {
       this.stomp.done('init');
       console.log('connected');
       this.isLogged = true;
-      this.title = "Type in your message";
-      this.msgService.getMessages().subscribe(msgs => this.messages = msgs);
+      this.msgService.getMessages('greetings').subscribe(msgs => this.messages = msgs);
 
       //subscribe
       this.subscription = this.stomp.subscribe('/topic/greetings', this.response);
     });
   }
 
-  public logout() : void {
-    //unsubscribe
+  public switchTopic(topicName : String) : void {
+    this.currentChannel = topicName;
     this.subscription.unsubscribe();
+    this.subscription = this.stomp.subscribe('/topic/'+topicName, this.response);
+    this.msgService.getMessages(topicName).subscribe(msgs => this.messages = msgs);
+  }
 
-    //disconnect
+  public logout() : void {
+    this.subscription.unsubscribe();
     this.stomp.disconnect().then(() => {
       console.log( 'Connection closed' )
     })
@@ -65,9 +69,9 @@ export class ChatComponent {
       author: this.nick,
       timestamp: "now"
     };
-    this.stomp.send('/app/hello',chatMsg);
-    // this.messages.push(chatMsg);
+    this.msgService.sendMessage(this.currentChannel, chatMsg).subscribe();
     this.msg = "";
   }
 }
+
 

@@ -1,10 +1,14 @@
-<h1>{{title}}</h1>
 <div *ngIf="!isLogged">
+  <h1>Type in Your nickname</h1>
   <input type="text" name="nick" [(ngModel)]="nick" (keyup.enter)="login()"/>
   <button (click)="login()">Log in</button>
 </div>
 
 <div *ngIf="isLogged">
+  <h1>Type in your msg to #{{currentChannel}}</h1>
+  <ul>
+    <li *ngFor="let topic of topics"><span (click)="switchTopic(topic)">{{topic}}</span></li>
+  </ul>
   <input type="text" [(ngModel)]="msg" (keyup.enter)="sendMessage(msg)"/>
   <button (click)="sendMessage(msg)">send</button>
   <div *ngFor="let item of messages">
